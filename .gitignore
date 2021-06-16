@@ -1,0 +1,12 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/DNLConsole365/bin/Debug
+/DNLConsole365/obj/Debug/DNLConsole365.pdb
+/DNLConsole365/obj/Debug/DNLConsole365.exe
+/DNLConsole365/obj/Debug/DNLConsole365.csproj.FileListAbsolute.txt
+/DNLConsole365/obj/Debug/DNLConsole365.csproj.CoreCompileInputs.cache
+/DNLConsole365/obj/Debug/DNLConsole365.csproj.CopyComplete
+/DNLConsole365/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+/packages

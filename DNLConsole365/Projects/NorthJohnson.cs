@@ -140,19 +140,52 @@ namespace DNLConsole365.Projects
             return service.Retrieve("email", id, new Microsoft.Xrm.Sdk.Query.ColumnSet("subject", "description", "messageid"));
         }
 
-        public static EntityCollection GetMails(IOrganizationService service)
+        public static void DeleteEmails(IOrganizationService service)
+        {
+            var emailsToDelete = GetMails(service);
+
+            Console.WriteLine("Total - " + emailsToDelete.Count);
+            var total = 0;
+            foreach(var email in emailsToDelete)
+            {
+                service.Delete(email.LogicalName, email.Id);
+                total++;
+                Console.WriteLine($"{total} of {emailsToDelete.Count}");
+            }
+        }
+        public static void ProcessActivityParty(IOrganizationService service)
+        {
+            var parties = GetParties(service);
+
+
+        }
+
+        public static List<Entity> GetParties(IOrganizationService service)
+        {
+            var query = new QueryExpression("activityparty");
+
+            query.ColumnSet = new ColumnSet(true);
+            query.Criteria.AddCondition("activityid", ConditionOperator.Equal, new Guid("25c53ebc-a5ce-eb11-8235-000d3a3abd9e"));
+            query.Criteria.AddCondition("participationtypemask", ConditionOperator.Equal, 2);
+            return service.RetrieveMultiple(query).Entities.ToList();
+        }
+
+        public static List<Entity> GetMails(IOrganizationService service)
         {
             var query = new QueryExpression("email");
 
-            query.ColumnSet = new ColumnSet("description");
+            query.ColumnSet = new ColumnSet("activityid","messageid");
             query.Criteria.AddCondition("directioncode", ConditionOperator.Equal, false);
-            query.Criteria.AddCondition("description", ConditionOperator.NotNull);
+           query.Criteria.AddCondition("messageid", ConditionOperator.Like, "%eu.messagegears.net%");
             
             // Set initial page number
             int pageNumber = 1;
             // Collections for entities
             var entityCollection = new EntityCollection();
             var tempResult = new EntityCollection();
+
+            tempResult = service.RetrieveMultiple(query);
+            entityCollection.Entities.AddRange(tempResult.Entities);
 
             // Select records using paging
             do
@@ -169,7 +202,7 @@ namespace DNLConsole365.Projects
             }
             while (tempResult.MoreRecords);
 
-            return entityCollection;
+            return entityCollection.Entities.ToList();
         }
     }
 }

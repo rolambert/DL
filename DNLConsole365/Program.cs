@@ -1306,10 +1306,14 @@ namespace DNLConsole365
 
             //var body = NorthJohnson.CrmRequest(System.Net.Http.HttpMethod.Get, "contacts");
             //NorthJohnson.ConnectTo();
-            var njSandServide = NorthJohnson.GetAccessToken();
-            NorthJohnson.CompareEmails(njSandServide);
+           // var njSandServide = NorthJohnson.GetAccessToken();
+           // NorthJohnson.CompareEmails(njSandServide);
             var njService = OrganizationService.Instance.GetService(northropProd365, Guid.Empty);
-            NorthJohnson.CompareEmails(njService);
+
+            NorthJohnson.ProcessActivityParty(njService);
+            NorthJohnson.DeleteEmails(njService);
+
+            Console.ReadKey();
 
             //var empService = OrganizationService.Instance.GetService(empPetroliumSand, Guid.Empty);
 
